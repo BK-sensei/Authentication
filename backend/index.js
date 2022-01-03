@@ -3,7 +3,7 @@ const app = express()
 const port = 5000
 const session = require("express-session")
 const passport = require("./config/passport")
-const loginRoutes = require("./routes/login")
+const authRoutes = require("./routes/auth")
 const adminRoutes = require("./routes/admin")
 
 app.use(express.json())
@@ -17,7 +17,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use("/auth/login", loginRoutes)
+app.use("/auth", authRoutes)
 app.use("/admin", adminRoutes)
 
 app.listen(port, () => {
