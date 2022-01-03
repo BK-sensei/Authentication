@@ -1,5 +1,5 @@
 const verifyUser = (req, res, next) => {
-    if(!req.user) {
+    if (!req.user) {
         res.status(401).send("Unauthorized")
     } else {
         next()
