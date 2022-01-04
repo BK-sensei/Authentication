@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 import Login from './pages/Login'
 import Admin from './pages/Admin'
+import NotFound from './pages/NotFound'
 
 const App = () => {
   return (
