@@ -10,10 +10,11 @@ passport.use(new LocalStrategy((username, password, done) => {
 
     if (!user) {
         return done(null, false)
-    } else {
-        return done(null, user)
-    }
+    } 
+    return done(null, user) // ça va mettre req.user = user
+
 }))
+// => stratégie qui permet la création d'une sessions et d'un cookie lié à cette session
 
 passport.serializeUser((user, done) => {
     done(null, user.id)

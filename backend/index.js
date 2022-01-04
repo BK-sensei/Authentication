@@ -16,7 +16,7 @@ app.use(cors({
 
 app.use(morgan('tiny'))
 
-app.use(express.json())
+app.use(express.json()) //======> permet de lire le req.body
 
 // initialisation de la session
 app.use(session({
