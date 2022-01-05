@@ -9,10 +9,11 @@ import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/form-contro
 
 const Login = () => {
     const [isLogged, setIsLogged] = useState(false)
+    const [errors, setErrors] = useState("")
 
     const navigate = useNavigate()
 
-    const userLogged = () =>{
+    const userLogged = () => {
         setIsLogged(false)
     }
 
@@ -21,18 +22,34 @@ const Login = () => {
             username: "",
             password: ""
         },
-        onSubmit: () => {
-            setIsLogged(true)
-            navigate("/admin")
+        onSubmit: values => {
+            fetch('http://localhost:5000/auth/login', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json' // ça veut dire qu'on envoie du JSON et qu'on attend en retour du JSON
+                },
+                body: JSON.stringify(values)
+            })
+            .then(response => {
+                if(response.status >= 400){
+                    alert('Bande de gros bâtards de snow')
+                }
+                else{
+                    navigate('/admin')
+                }
+            })
         },
         validationSchema: Yup.object().shape({
             username: Yup.string()
-            .required("Username is required"),
+             .required("Username is required"),
             password: Yup.string()
-            .required("Password is required")
+             .required("Password is required")
         }),
         validateOnChange: false
     })
+
+    
 
     return (
         <ChakraProvider>
@@ -42,7 +59,7 @@ const Login = () => {
                 <form onSubmit={formik.handleSubmit}>
 
                     <FormControl id="username" w="300px" isInvalid={formik.errors.username}>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel htmlFor="username">Username</FormLabel>
                         <Input
                             type="text"
                             name="username"
@@ -55,7 +72,7 @@ const Login = () => {
                     </FormControl>
 
                     <FormControl id="password" mt={5} w="300px" isInvalid={formik.errors.password}>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel htmlFor="password">Password</FormLabel>
                         <Input
                             type="password"
                             name="password"
