@@ -11,7 +11,9 @@ const adminRoutes = require("./routes/admin")
 
 app.use(cors({
     origin: 'http://localhost:3000',
-    credentials: true
+    credentials: true   //=> cette clé est obligatoire pour donner accès au navigateur
+                        //=> pour transporter le cookie 
+                        //=> toujours dès qu'il y a un système d'authentification comme 'passport'
 }))
 
 app.use(morgan('tiny'))
