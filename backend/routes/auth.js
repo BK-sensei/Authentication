@@ -54,8 +54,6 @@ app.post('/signup', (req, res) => {
                 let usersData = JSON.parse(data) // permet de décoder ce que je récupère
                 // je pousse mon nouveau user dans mon tableau
                 usersData = [...usersData, newUser]
-            }
-        })
 
         // j'ecris dans mon fichier mon tableau mis a jour avec le nouveau user
         fs.writeFile('./users.json', JSON.stringify(usersData), (err) => {
@@ -63,6 +61,8 @@ app.post('/signup', (req, res) => {
                 res.send(500).json({ error: "An error occured" })
             } else {
                 res.json(newUser)
+            }
+        })
             }
         })
     }
