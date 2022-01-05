@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import { ChakraProvider } from '@chakra-ui/react'
-import { Input, Button } from "@chakra-ui/react"
-import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/form-control"
+// import { ChakraProvider } from '@chakra-ui/react'
+import { 
+    Text,
+    Center,
+    Grid,
+    GridItem,
+    Input,
+    FormControl, 
+    FormLabel, 
+    FormErrorMessage, 
+    InputGroup, 
+    InputLeftElement, 
+    Button 
+} from "@chakra-ui/form-control"
+
+import { SunIcon, LockIcon } from '@chakra-ui/icons'
 
 const Login = () => {
-    const [isLogged, setIsLogged] = useState(false)
-    const [errors, setErrors] = useState("")
-
     const navigate = useNavigate()
-
-    const userLogged = () => {
-        setIsLogged(false)
-    }
 
     const formik = useFormik ({
         initialValues: {
@@ -32,8 +37,8 @@ const Login = () => {
                 body: JSON.stringify(values)
             })
             .then(response => {
-                if(response.status >= 400){
-                    alert('Bande de gros bâtards de snow')
+                if (response.status >= 400){
+                    alert(response.statusText)
                 }
                 else{
                     navigate('/admin')
@@ -49,54 +54,59 @@ const Login = () => {
         validateOnChange: false
     })
 
-    
-
     return (
-        <ChakraProvider>
-            <h1>Login</h1>
-            <br/>
-            {!isLogged ?
-                <form onSubmit={formik.handleSubmit}>
+        <Grid templateColumns='repeat(2, 1fr)' h='100vh'>
+            <GridItem>
+                <Center h='100%' paddingLeft='50px' paddingRight='50px'>
+                    <form onSubmit={formik.handleSubmit}>
 
-                    <FormControl id="username" w="300px" isInvalid={formik.errors.username}>
-                        <FormLabel htmlFor="username">Username</FormLabel>
-                        <Input
-                            type="text"
-                            name="username"
-                            value={formik.values.username}
-                            onChange={formik.handleChange}
-                        />
-                        <FormErrorMessage>
-                            {formik.errors.username}
-                        </FormErrorMessage>
-                    </FormControl>
+                        <FormControl id="username" w="300px" isInvalid={formik.errors.username}>
+                            <FormLabel htmlFor="username">Username</FormLabel>
+                            <InputGroup>
+                                <InputLeftElement
+                                pointerEvents='none'
+                                children={<SunIcon color='gray.300' />}
+                                />
+                                <Input
+                                    type="text"
+                                    name="username"
+                                    value={formik.values.username}
+                                    onChange={formik.handleChange}
+                                />
+                            </InputGroup>
+                            <FormErrorMessage>{formik.errors.username}</FormErrorMessage>
+                        </FormControl>
 
-                    <FormControl id="password" mt={5} w="300px" isInvalid={formik.errors.password}>
-                        <FormLabel htmlFor="password">Password</FormLabel>
-                        <Input
-                            type="password"
-                            name="password"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                        />
-                        <FormErrorMessage>
-                            {formik.errors.password}
-                        </FormErrorMessage>
-                    </FormControl>
+                        <FormControl id="password" mt={5} w="300px" isInvalid={formik.errors.password}>
+                            <FormLabel htmlFor="password">Password</FormLabel>
+                            <InputGroup>
+                                <InputLeftElement
+                                pointerEvents='none'
+                                children={<LockIcon color='gray.300' />}
+                                />
+                                <Input
+                                    type="password"
+                                    name="password"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                />
+                            </InputGroup>
+                            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+                        </FormControl>
 
-                    <Button type="submit" colorScheme="teal" variant="solid" w="300px" mt={5}>
-                        Login
-                    </Button>
+                        <Button mt={5} w='100%' type='submit' color='white' bg='salmon'>
+                            Button
+                        </Button>
+                    </form>
+                </Center>
+            </GridItem>
 
-                </form>
-
-            :
-                <Button onClick={userLogged} colorScheme="teal" variant="solid" w="300px" mt={5}>
-                    Logout
-                </Button>
-            }
-
-        </ChakraProvider>
+            <GridItem bg="gray.800">
+                <Center h='100%'>
+                <Text color="white" as="h1" fontWeight={800} fontSize={'54px'}>Login</Text>
+                </Center>
+            </GridItem>
+        </Grid>
     )
 }
 
